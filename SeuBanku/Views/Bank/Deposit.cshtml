@@ -1,0 +1,72 @@
+﻿@{
+    Layout = "_LayoutAuth";
+    ViewData["Title"] = "Deposit";
+}
+
+<div class="centered bg-white w-25 box-shadow p-3 rounded-x form-in"> 
+    <div class="p-3 pt-5 text-center">
+        <div class="text-center">
+            <span class="logo-make bg-gradient bg-primary">
+                <span class="logo-make-span" data-feather="dollar-sign"></span>
+            </span>
+        </div>
+        <h4 class="mt-5">Deposit</h4>
+        <small class="text-center text-muted">
+            Welcome back, deposit!
+        </small>
+    </div>
+
+    <div>
+        @{
+            if(!string.IsNullOrEmpty(ViewBag.Error))
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    @ViewBag.Error
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            if(!string.IsNullOrEmpty(ViewBag.Ok))
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    @ViewBag.Ok
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+        }
+    </div>
+
+    <div class="bg-light p-2 my-2 text-center box-shadow">
+        <small class="d-block text-black-50 fw-bold">Owner</small> 
+        <span id="reciever-name"></span>
+    </div>
+
+    <form method="post" asp-action="deposit" asp-controller="bank">
+        <div class="mb-2">
+            <div class="form-floating">
+                <input autocomplete="on" class="form-control rounded f-lighter fw-bold fs-6" id="card-input" name="card" data-mask="000-000-000" type="text" required placeholder="Account Number" />
+                <label class="text-black-50 f-lighter fw-bold fs-6 mb-1">Account Number</label>
+            </div>
+        </div>
+
+        <div class="mb-2">
+            <div class="form-floating">
+                <input class="form-control f-lighter fw-bold fs-6" id="card-amount" name="amount" data-mask="000000000000000,00" data-mask-reverse="true" type="text" required placeholder="Amount" />
+                <label class="mb-1 text-black-50 f-lighter fw-bold fs-6">Amount</label>
+            </div>
+        </div>
+
+        <div class="mt-4 mb-1">
+            <button type="submit" class="btn btn-lg btn-primary bg-gradient rounded w-100">
+                Deposit
+            </button>
+        </div>
+    </form>
+
+    <div class="mt-2 mb-2">
+        <small>
+            Access you account?
+            <a asp-action="login" asp-controller="auth">Login.</a>
+        </small>
+    </div>
+</div>

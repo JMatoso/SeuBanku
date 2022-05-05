@@ -1,0 +1,64 @@
+﻿@model SeuBanku.Models.Request.Login
+
+@{
+    Layout = "_LayoutAuth";
+    ViewData["Title"] = "Login";
+}
+
+<div class="centered bg-white w-25 box-shadow p-3 rounded-x form-in"> 
+    <form asp-action="login" asp-controller="auth" method="post">
+        <div class="p-3 pt-5 text-center">
+            <div class="text-center">
+                <span class="logo-make bg-gradient bg-primary">
+                    <span class="logo-make-span" data-feather="dollar-sign"></span>
+                </span>
+            </div>
+            <h4 class="mt-5">Login</h4>
+            <small class="text-center text-muted">
+                Welcome back, login!
+            </small>
+        </div>
+
+        @if(!string.IsNullOrEmpty(ViewBag.Error))
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                @ViewBag.Error
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        <div class="mt-2 px-3">
+            <div class="form-floating">
+                <input asp-for="Email" class="form-control" type="email" required placeholder="email@example.com" />
+                <label asp-for="Email" class="text-muted mb-1">Email Address</label>
+                <span asp-validation-for="Email" class="mt-1 text-danger"></span>
+            </div>
+
+            <div class="form-floating mt-2">
+                <input asp-for="Password" class="form-control" type="password" required placeholder="Password" />
+                <label asp-for="Password" class="text-muted mb-1">Password</label>
+                <span asp-validation-for="Password" class="mt-1 text-danger"></span>
+            </div>
+
+            <div class="form-check mt-4 my-2 text-muted">
+                <input class="form-check-input" asp-for="RememberMe" type="checkbox" value="true" id="flexCheckChecked" checked>
+                <label class="form-check-label" asp-for="RememberMe">
+                    Remember me?
+                </label>
+            </div>
+
+            <div class="mt-4 mb-1">
+                <button type="submit" class="btn btn-lg btn-primary bg-gradient rounded w-100">
+                    Login
+                </button>
+            </div>
+
+            <div class="mt-2 mb-2">
+                <small>
+                    Don't have an account yet?
+                    <a asp-action="signin" asp-controller="auth">Create one!</a>
+                </small>
+            </div>
+        </div>
+    </form>
+</div>

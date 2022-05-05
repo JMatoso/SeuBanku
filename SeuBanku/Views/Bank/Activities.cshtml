@@ -1,0 +1,151 @@
+﻿@using System.Globalization
+@model SeuBanku.Models.CommonModel
+
+@{
+    ViewData["Title"] = "Activities";
+}
+
+<div class="mt-2">
+    <div class="rounded-x bg-dark bg-gradient top-content" style="height: 250px">
+        <img src="~/images/pattern-tree.svg" class="w-100 h-100 rounded-x box-shadow-x image-fit" alt="Card Bank Pattern" />
+        <div class="overlay text-center rounded-x">
+            <h3 class="text-white f-lighter">Transations & Invoices</h3>
+        </div>
+        <div class="content-overlay">
+            <div class="mb-5">
+                <div class="rounded-x bg-white box-shadow p-3">
+                    <div class="p-3">
+                        <h6 class="mt-1 fw-bold f-lighter blue-dark">
+                            Your Transation's
+                            (@Model.Metadata.Count)
+                        </h6>
+                        <small class="text-black-50">Page @Model.Metadata.CurrentPage</small>
+                    </div>
+
+                    <hr class="bg-dark-2 mt-1" />
+
+                    <div class="table-responsive-md">
+                        <table class="table table-borderless">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="font-sm-xl text-uppercase f-regular">Reference</th>
+                                    <th scope="col" class="font-sm-xl text-uppercase f-regular">Service</th>
+                                    <th scope="col" class="font-sm-xl text-uppercase f-regular">Operation</th>
+                                    <th scope="col" class="font-sm-xl text-uppercase f-regular text-center">Status</th>
+                                    <th scope="col" class="font-sm-xl text-uppercase f-regular text-center">Amount</th>
+                                    <th scope="col" class="font-sm-xl text-uppercase f-regular">Date</th>
+                                    <th scope="col" class="font-sm-xl text-uppercase f-regular text-center">Invoice</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    var extracts = Model.Extracts.Where(e => 
+                                            e.OutAccountNumber == Model.Account.AccountNumber || e.InAccountNumber == Model.Account.AccountNumber)
+                                        .OrderByDescending(e => e.OperationDate);
+
+                                    foreach (var extract in extracts)
+                                    {
+                                        <tr>
+                                            <th class="f-lighter align-middle">#@extract.Reference</th>
+                                            <td class="dark-blue f-regular align-middle">
+                                                @if(extract.InAccountNumber == Model.Account.AccountNumber)
+                                                {
+                                                    <span>@extract.From</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>@extract.To</span>
+                                                }
+                                            </td>
+                                            <td class="dark-blue f-regular align-middle">@extract.Operation</td>
+                                            <td class="text-center align-middle">
+                                                @if(extract.IsApproved)
+                                                {
+                                                    <span class="badge bg-success bg-gradient">Success</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-light bg-gradient text-muted">Pendent</span>
+                                                }
+                                            </td>
+                                            <td class="text-center fw-bold align-middle">
+                                                @if(extract.OutAccountNumber == Model.Account.AccountNumber)
+                                                {
+                                                    <span class="p-1 dark-blue text-danger">-@extract.OutcomingBalance</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="p-1 dark-blue text-success">+@extract.OutcomingBalance</span>
+                                                }
+                                            </td>
+                                            <td class="align-middle">@extract.OperationDate.ToString("MMM dd, yy", CultureInfo.InvariantCulture)</td>
+                                            <td class="text-center align-middle">
+                                                @if((extract.Operation == BankOperations.Transfer || extract.Operation == BankOperations.Payment) && extract.OutAccountNumber == Model.Account.AccountNumber)
+                                                {
+                                                    <a target="_blank" data-toggle="tooltip" data-placement="auto" title="Download invoice" asp-action="invoice" asp-controller="bank" asp-route-invid="@extract.Id">
+                                                        <span data-feather="download-cloud"></span>
+                                                    </a>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                        @if(extracts.Count() <= 0)
+                        {
+                            <div class="p-3 text-center">
+                                <h5 class="text-muted text-center p-3">No recent transations!</h5>
+                            </div>
+                        }
+                    </div>
+
+                    <hr class="bg-dark-2 mt-2 mb-3">
+
+                    <nav aria-label="Page Navigation">
+                        <ul class="pagination pagination-md justify-content-center">
+                            @{
+                                if(Model.Metadata.HasPrevious)
+                                {
+                                    int pageCount = Model.Metadata.CurrentPage - 1;
+                                    <li class="page-item">
+                                        <a class="page-link" asp-action="activities" asp-controller="bank" asp-route-pageNumber="@pageCount" tabindex="-1">Previous</a>
+                                    </li>
+                                }
+
+                                for(int i = 1; i <= Model.Metadata.Total; i++)
+                                {
+                                    if(i == Model.Metadata.CurrentPage)
+                                    {
+                                        <li class="page-item disabled">
+                                            <a class="page-link disabled" asp-action="activities" asp-controller="bank" asp-route-pageNumber="@i" aria-disabled="true">@i</a>
+                                        </li>
+                                    }
+
+                                    if(i != Model.Metadata.CurrentPage)
+                                    {
+                                        <li class="page-item">
+                                            <a class="page-link" asp-action="activities" asp-controller="bank" asp-route-pageNumber="@i">@i</a>
+                                        </li>
+                                    }
+                                }
+
+                                if(Model.Metadata.HasNext)
+                                {
+                                    int pageCount = Model.Metadata.CurrentPage + 1;
+                                    
+                                    @if(pageCount <= Model.Metadata.Total)
+                                    {
+                                        <li class="page-item">
+                                            <a class="page-link" asp-action="activities" asp-controller="bank" asp-route-pageNumber="@pageCount">Next</a>
+                                        </li>
+                                    }
+                                }
+                            }                            
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

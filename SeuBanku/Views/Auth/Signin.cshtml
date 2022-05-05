@@ -1,0 +1,133 @@
+﻿@model SeuBanku.Models.Request.Signin
+
+@{
+    Layout = "_LayoutAuth";
+    ViewData["Title"] = "Signin";
+}
+
+<div class="centered bg-white w-25 box-shadow-x p-3 rounded-x form-in"> 
+    <form asp-action="signin" asp-controller="auth" method="post">
+        <div class="p-3 pt-5 text-center">
+            <div class="text-center">
+                <span class="logo-make bg-gradient bg-primary">
+                    <span class="logo-make-span" data-feather="dollar-sign"></span>
+                </span>
+            </div>
+            <h4 class="mt-5">Sign Up</h4>
+            <small class="text-center text-muted">
+                Welcome, sign up today!
+            </small>
+        </div>
+
+        @if(!string.IsNullOrEmpty(ViewBag.Error))
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                @ViewBag.Error
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        <div class="mt-2">
+            <div class="d-flex mb-2">
+                <div class="signin-page w-100" id="prev-page">
+                    <div class="px-3">
+                        <div class="form-floating mb-2">
+                            <input asp-for="FirstName" class="form-control" type="text" required placeholder="First Name" />
+                            <label asp-for="FirstName" class="text-muted mb-1">First Name</label>
+                            <span asp-validation-for="FirstName" class="mt-1 text-danger"></span>
+                        </div>
+
+                        <div class="form-floating mb-2">
+                            <input asp-for="LastName" class="form-control" type="text" required placeholder="Last Name" />
+                            <label asp-for="LastName" class="text-muted mb-1">Last Name</label>
+                            <span asp-validation-for="LastName" class="mt-1 text-danger"></span>
+                        </div>
+
+                        <div class="form-floating mb-2">
+                            <input asp-for="Email" class="form-control" type="email" required placeholder="email@example.com" />
+                            <label asp-for="Email" class="text-muted mb-1">Email Address</label>
+                            <span asp-validation-for="Email" class="mt-1 text-danger"></span>
+                        </div>
+
+                        <div class="form-floating mb-2">
+                            <input asp-for="Password" class="form-control" autocomplete="new_password" type="password" required placeholder="Password" />
+                            <label asp-for="Password" class="text-muted mb-1">Password</label>
+                            <span asp-validation-for="Password" class="mt-1 text-danger"></span>
+                        </div>
+
+                        <div class="mt-4 text-right">
+                            <a href="#next" id="next-btn" class="btn btn-primary bg-gradient rounded w-50">
+                                Next
+                                <span data-feather="arrow-right"></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="signin-page" id="next-page" style="width: 0 !important; display: none;">
+                    <div class="px-3">
+                        <div class="mb-3">
+                            <div class="input-group">
+                                <label class="input-group-text bg-gradient bg-white font-sm-xl f-lighter fw-bold fs-6" asp-for="AccountType">Your Account Type</label>
+                                <select class="form-select p-3 bg-gradient bg-white font-sm-xl f-lighter fw-bold fs-6" asp-for="AccountType" id="typeSelector">
+                                    @{
+                                        var accountTypes = Enum.GetValues(typeof(AccountType));
+
+                                        int i = 0;
+
+                                        foreach (var type in accountTypes)
+                                        {
+                                            i++;
+                                            <option value="@i" class="font-sm-xl f-lighter fw-bold fs-6">@type.ToString()</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <span asp-validation-for="AccountType" class="mt-1 text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="input-group">
+                                <span class="input-group-text bg-gradient bg-white font-sm-xl f-lighter fw-bold fs-6 ">AKZ</span>
+                                <span class="input-group-text bg-gradient bg-white font-sm-xl f-lighter fw-bold fs-6">In. Balance</span>
+                                <input type="text" asp-for="IntialBalance" data-mask="000000000000000,00" data-mask-reverse="true" class="form-control p-3 font-sm-xl f-lighter fw-bold fs-6" aria-label="Kwanza amount (with dot and two decimal places)">
+                            </div>
+                            <span asp-validation-for="IntialBalance" class="mt-1 text-danger"></span>
+                        </div>
+
+                        <div class="mb-2">
+                            <div class="input-group">
+                                <span class="input-group-text bg-gradient bg-white font-sm-xl f-lighter fw-bold fs-6">AKZ</span>
+                                <span class="input-group-text bg-gradient bg-white font-sm-xl f-lighter fw-bold fs-6">Diary Limit</span>
+                                <input type="text" asp-for="DiaryLimit" data-mask="000000000000000,00" data-mask-reverse="true" class="form-control p-3 font-sm-xl f-lighter fw-bold fs-6" aria-label="Kwanza amount (with dot and two decimal places)">
+                            </div>
+                            <span asp-validation-for="DiaryLimit" class="mt-1 text-danger"></span>
+                        </div>
+
+                        <div class="mb-3" id="savingPlace">
+                            <div class="input-group">
+                                <span class="input-group-text bg-gradient bg-white font-sm-xl f-lighter fw-bold fs-6">Years to Withdraw</span>
+                                <input id="saving" type="number" value="1" asp-for="PeriodToTakeMoneyInYears" class="form-control p-3 font-sm-xl f-lighter fw-bold fs-6" aria-label="Integer number">
+                            </div>
+                            <span asp-validation-for="PeriodToTakeMoneyInYears" class="mt-1 text-danger"></span>
+                        </div>
+
+                        <div class="mt-4 text-center">
+                            <button type="submit" class="btn btn-lg btn-primary bg-gradient rounded w-100">
+                                Sign Up
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4 px-3">
+                <small>
+                    Already have an account?
+                    <a asp-action="login" asp-controller="auth">Login.</a>
+                </small>
+            </div>
+        </div>
+    </form>
+</div>
+

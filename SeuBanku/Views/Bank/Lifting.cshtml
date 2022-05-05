@@ -1,0 +1,99 @@
+﻿@model SeuBanku.Models.CommonModel
+
+@{
+    ViewData["Title"] = "Lifting";
+}
+
+<div class="mt-2">
+    <div class="rounded-x bg-dark bg-gradient top-content" style="height: 250px">
+        <img src="~/images/pattern-tree.svg" class="w-100 h-100 rounded-x box-shadow-x image-fit" alt="Card Bank Pattern" />
+        <div class="overlay rounded-x text-center">
+            <h3 class="text-white f-lighter">Lifting</h3>
+        </div>
+        <div class="content-overlay">
+            <div class="row">
+                <div class="col-lg-7 mb-3">
+                    <div class="rounded-x bg-white box-shadow p-3 h-100">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="p-3">
+                                    <h6 class="mt-1 fw-bold f-lighter blue-dark">Lifting</h6>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                @if(Model.Account.AccountType == AccountType.Savings)
+                                {
+                                    if(DateTime.UtcNow >= Model.Account.OpenedDate.AddYears(Model.Account.PeriodToTakeMoneyInYears))
+                                    {
+                                        <div class="p-3 text-right">
+                                            <button id="lift-btn" class="btn btn-md btn-primary box-shadow-x bg-gradient rounded-x f-regular">
+                                                Lift
+                                            </button>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="p-3 text-right">
+                                            <h6 class="mt-1 f-lighter blue-dark">Saving Account</h6>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="p-3 text-right">
+                                        <button id="lift-btn" class="btn btn-md btn-primary box-shadow-x bg-gradient rounded-x f-regular">
+                                            Lift
+                                        </button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <hr class="bg-dark-2 mt-1" />
+
+                        <div>
+                            <label class="text-muted py-2 f-lighter">Amount you wish to lift</label>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text bg-gradient bg-white font-sm-xl f-lighter fw-bold fs-6">AKZ</span>
+                                <input id="pretended-amount" type="text" class="form-control f-lighter fw-bold fs-6 p-3" data-mask="000000000000000,00" data-mask-reverse="true" aria-label="Amount (to the nearest kwanza)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-5 mb-3">
+                    <div class="rounded-x bg-white box-shadow h-100 p-3">
+                        <div class="p-3">
+                            <h6 class="mt-1 fw-bold f-lighter blue-dark">Account Details</h6>
+                        </div>
+
+                        <div class="p-3">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <small class="blue-dark d-block">
+                                        <small class="d-block text-black-50 fw-bold">Owner</small> 
+                                            @Model.User.FirstName 
+                                            @Model.User.LastName
+                                    </small>
+                                </div>
+                                <div class="col-lg-6">
+                                    <small class="blue-dark d-block">
+                                        <small class="d-block text-black-50 fw-bold">Account Number</small> 
+                                        @Model.Account.AccountNumber
+                                    </small>
+                                </div>
+                            </div>
+
+                            <div class="mt-1">
+                                <small class="blue-dark d-block">
+                                    <small class="d-block text-black-50 fw-bold">Email Address</small> 
+                                    @Model.User.Email
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

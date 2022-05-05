@@ -1,0 +1,112 @@
+﻿@using System.Globalization
+@model SeuBanku.Models.CommonModel
+
+@{
+    ViewData["Title"] = Model.User.FirstName + " " + Model.User.LastName;
+}
+
+<div class="mt-2">
+    <div class="rounded-x bg-dark bg-gradient top-content" style="height: 250px">
+        <img src="~/images/pattern-tree.svg" class="w-100 h-100 rounded-x box-shadow-x image-fit" alt="Card Bank Pattern" />
+        <div class="overlay text-center rounded-x">
+            <h3 class="text-white f-lighter">Profile</h3>
+        </div>
+
+        <div class="content-overlay mb-3">
+            <div class="">
+                <div class="row">
+                    <div class="col-lg-6 mb-3">
+                        <div class="rounded-x bg-white box-shadow h-100 p-3 mb-3">
+                            <div class="p-3">
+                                <h6 class="mt-1 fw-bold f-lighter blue-dark">User's Details</h6>
+                            </div>
+
+                            <hr class="bg-dark-2 mt-1" />
+
+                            <div class="p-3">
+                                <div class="mb-3"> 
+                                    <small class="blue-dark d-block p-3 rounded-x box-shadow bg-light bg-gradient">
+                                        <small class="fw-bold d-block">Full Name</small> 
+                                        @Model.User.FirstName 
+                                        @Model.User.LastName
+                                    </small>
+                                </div>
+
+                                <div>
+                                    <span class="blue-dark d-block p-3 rounded-x box-shadow bg-light bg-gradient">
+                                        <small class="fw-bold d-block">Email Address</small> 
+                                        @Model.User.Email
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 mb-3">
+                        <div class="rounded-x bg-white box-shadow p-3">
+                            <div class="p-3">
+                                <h6 class="mt-1 fw-bold f-lighter blue-dark">Account's Details</h6>
+                            </div>
+
+                            <hr class="bg-dark-2 mt-1" />
+
+                            <div class="p-3">
+                                <div class="mb-3">
+                                    <small class="blue-dark d-block p-3 rounded-x box-shadow bg-light bg-gradient">
+                                        <small class="fw-bold d-block">Account Number</small> 
+                                        @Model.Account.AccountNumber 
+                                    </small>
+                                </div>
+
+                                <div class="mb-3">
+                                    <small class="blue-dark d-block p-3 rounded-x box-shadow bg-light bg-gradient">
+                                        <small class="fw-bold d-block">Balance</small> 
+                                        @Model.Account.Balance
+                                    </small>
+                                </div>
+
+                                <div class="mb-3">
+                                    <small class="blue-dark d-block p-3 rounded-x box-shadow bg-light bg-gradient">
+                                        <small class="fw-bold d-block">Expire Date</small> 
+                                        @Model.Account.ExpireDate.ToString("MMMM, dddd, dd, yyyy", CultureInfo.InvariantCulture)
+                                    </small>
+                                </div>
+
+                                <div class="mb-3">
+                                    <small class="blue-dark d-block p-3 rounded-x box-shadow bg-light bg-gradient">
+                                        <small class="fw-bold d-block">Account Type</small> 
+                                        @Model.Account.AccountType
+                                    </small>
+                                </div>
+
+                                <div class="mb-3">
+                                    <small class="blue-dark d-block p-3 rounded-x box-shadow bg-light bg-gradient">
+                                        <small class="fw-bold d-block">Diary Limit</small> 
+                                        @Model.Account.Limit
+                                    </small>
+                                </div>
+
+                                <div class="mb-3">
+                                    <small class="blue-dark d-block p-3 rounded-x box-shadow bg-light bg-gradient">
+                                        <small class="fw-bold d-block">Opened Date</small> 
+                                        @Model.Account.OpenedDate.ToString("MMMM, dddd, dd, yyyy", CultureInfo.InvariantCulture)
+                                    </small>
+                                </div>
+
+                                @if(Model.Account.AccountType == AccountType.Savings)
+                                {
+                                    <div class="mb-3">
+                                        <small class="blue-dark d-block p-3 rounded-x box-shadow bg-light bg-gradient">
+                                            <small class="fw-bold d-block">You can start take money at</small> 
+                                            @Model.Account.OpenedDate.AddYears(Model.Account.PeriodToTakeMoneyInYears).ToString("MMMM, dddd, dd, yyyy", CultureInfo.InvariantCulture)
+                                        </small>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

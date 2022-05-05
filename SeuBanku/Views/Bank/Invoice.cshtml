@@ -1,0 +1,17 @@
+﻿@{
+    if(!string.IsNullOrEmpty(ViewBag.Error))
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @ViewBag.Error
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    if(!string.IsNullOrEmpty(ViewBag.OK))
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @ViewBag.OK
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+}

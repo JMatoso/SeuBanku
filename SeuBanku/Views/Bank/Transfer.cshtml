@@ -1,0 +1,139 @@
+﻿@model SeuBanku.Models.CommonModel
+
+@{
+    ViewData["Title"] = "Transfer";
+}
+
+<div class="mt-2">
+    <div class="rounded-x bg-dark bg-gradient top-content" style="height: 250px">
+        <img src="~/images/pattern-tree.svg" class="w-100 h-100 rounded-x box-shadow-x image-fit" alt="Card Bank Pattern" />
+        <div class="overlay rounded-x text-center">
+            <h3 class="text-white f-lighter">Bank Transfer</h3>
+        </div>
+        <div class="content-overlay">
+            <div class="row">
+                <div class="col-lg-6 mb-3">
+                    <div class="rounded-x bg-white box-shadow h-100 p-3">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="p-3">
+                                    <h6 class="mt-1 fw-bold f-lighter blue-dark">Bank Transfer</h6>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                @if(Model.Account.AccountType == AccountType.Savings)
+                                {
+                                    if(DateTime.UtcNow >= Model.Account.OpenedDate.AddYears(Model.Account.PeriodToTakeMoneyInYears))
+                                    {
+                                        <div class="p-3 text-right">
+                                            <button data-toggle="tooltip" data-placement="auto" title="Send the money" id="transfer-btn" class="btn btn-md btn-primary box-shadow-x bg-gradient rounded-x f-regular">
+                                                Send
+                                            </button>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="p-3 text-right">
+                                            <h6 class="mt-1 f-lighter blue-dark">Saving Account</h6>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="p-3 text-right">
+                                        <button data-toggle="tooltip" data-placement="auto" title="Send the money" id="transfer-btn" class="btn btn-md btn-primary box-shadow-x bg-gradient rounded-x f-regular">
+                                            Send
+                                        </button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                         <hr class="bg-dark-2 mt-1" />
+
+                        <div class="row">
+                            <div class="col-md-6 mb-2">
+                                <div class="form-floating">
+                                    <input autocomplete="on" class="form-control rounded f-lighter fw-bold fs-6" id="card-input" data-mask="000-000-000" type="text" required placeholder="Account Number" />
+                                    <label class="text-black-50 f-lighter fw-bold fs-6 mb-1">Account Number</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-2">
+                                <div class="form-floating">
+                                    <input class="form-control f-lighter fw-bold fs-6" id="card-amount" data-mask="000000000000000,00" data-mask-reverse="true" type="text" required placeholder="Amount" />
+                                    <label class="mb-1 text-black-50 f-lighter fw-bold fs-6">Amount</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <div class="rounded-x bg-white box-shadow h-100 p-3">
+                        <div class="p-3">
+                            <h6 class="mt-1 fw-bold f-lighter blue-dark">Sender Details</h6>
+                        </div>
+
+                        <div class="p-3">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <small class="blue-dark d-block">
+                                        <small class="d-block text-black-50 fw-bold">Owner</small> 
+                                            @Model.User.FirstName 
+                                            @Model.User.LastName
+                                    </small>
+                                </div>
+                                <div class="col-lg-6">
+                                    <small class="blue-dark d-block">
+                                        <small class="d-block text-black-50 fw-bold">Account Number</small> 
+                                        @Model.Account.AccountNumber
+                                    </small>
+                                </div>
+                            </div>
+
+                            <div class="mt-1">
+                                <small class="blue-dark d-block">
+                                    <small class="d-block text-black-50 fw-bold">Email Address</small> 
+                                    @Model.User.Email
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <div class="rounded-x bg-white box-shadow h-100 p-3">
+                        <div class="p-3">
+                            <h6 class="mt-1 fw-bold f-lighter blue-dark">Reciever Details</h6>
+                        </div>
+
+                        <div class="p-3">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <small class="blue-dark d-block">
+                                        <small class="d-block text-black-50 fw-bold">Owner</small> 
+                                        <span id="reciever-name"></span>
+                                    </small>
+                                </div>
+                                <div class="col-lg-6">
+                                    <small class="blue-dark d-block">
+                                        <small class="d-block text-black-50 fw-bold">Account Number</small> 
+                                        <span id="reciever-account-number"></span>
+                                    </small>
+                                </div>
+                            </div>
+
+                            <div class="mt-1">
+                                <small class="blue-dark d-block">
+                                    <small class="d-block text-black-50 fw-bold">Email Address</small> 
+                                    <a id="reciever-email" href="" target="_blank"></a>
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

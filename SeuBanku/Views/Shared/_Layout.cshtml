@@ -1,0 +1,202 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=7">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
+    <meta name="theme-color" content="#0d6efd"/>
+    <meta name="msapplication-navbutton-color" content="#0d6efd"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="#0d6efd"/>
+
+    <title>@ViewData["Title"] - SeuBanku</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/js-snackbar-master/snackbar.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="full-overlay" id="full-overlay" style="display: none;"></div>
+
+    <header>
+        <partial name="_TopHeader" /> 
+    </header>
+
+    <div id="sidebarMenu" class="sidebar bg-white bg-gradient box-shadow-xl px-2">
+        <div class="sidebar-inner">
+            <div class="px-3 pb-1 text-center">
+                <button class="openbtn f-regular text-primary text-uppercase font-sm-xl fw-bold" id="open-btn" onclick="closeNav()">
+                    SeuBanku
+                </button>
+            </div>
+
+            <hr class="bg-dark-2 my-1">
+
+            <div class="p-3">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a href="/">
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="bg-primary bg-gradient rounded-x box-shadow-x p-2 text-center text-white">
+                                        <span data-feather="home" class="f-10"></span>
+                                    </div>
+                                </div>
+                                <div class="col-8">
+                                    <div class="mt-2">
+                                        <span class="f-regular fw-bold text-uppercase font-sm-xl">Dashboard</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-action="transfer" asp-controller="bank">
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="bg-primary bg-gradient rounded-x box-shadow-x p-2 text-center text-white">
+                                        <span data-feather="upload-cloud" class="f-10"></span>
+                                    </div>
+                                </div>
+                                <div class="col-8">
+                                    <div class="mt-2">
+                                        <span class="f-regular fw-bold text-uppercase font-sm-xl">Transfer</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-action="payments" asp-controller="bank">
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="bg-primary bg-gradient rounded-x box-shadow-x p-2 text-center text-white">
+                                        <span data-feather="dollar-sign" class="f-10"></span>
+                                    </div>
+                                </div>
+                                <div class="col-8">
+                                    <div class="mt-2">
+                                        <span class="f-regular fw-bold text-uppercase font-sm-xl">Payments</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-action="lifting" asp-controller="bank">
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="bg-primary bg-gradient rounded-x box-shadow-x p-2 text-center text-white">
+                                        <span data-feather="credit-card" class="f-10"></span>
+                                    </div>
+                                </div>
+                                <div class="col-8">
+                                    <div class="mt-2">
+                                        <span class="f-regular fw-bold text-uppercase font-sm-xl">Lifting</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-action="activities" asp-controller="bank">
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="bg-primary bg-gradient rounded-x box-shadow-x p-2 text-center text-white">
+                                        <span data-feather="file-text" class="f-10"></span>
+                                    </div>
+                                </div>
+                                <div class="col-8">
+                                    <div class="mt-2">
+                                        <span class="f-regular fw-bold text-uppercase font-sm-xl">Activity</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+
+                    <li class="nav-item my-2">
+                        <small class="ms-2 text-uppercase fw-bold f-medium text-xs font-sm-xl text-black-50 font-weight-bolder opacity-8">Account</small>
+                    </li>
+
+                    <li class="nav-item">
+                        <a asp-action="profile" asp-controller="bank">
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="bg-primary bg-gradient rounded-x box-shadow-x p-2 text-center text-white">
+                                        <span data-feather="user" class="f-10"></span>
+                                    </div>
+                                </div>
+                                <div class="col-8">
+                                    <div class="mt-2">
+                                        <span class="f-regular fw-bold text-uppercase font-sm-xl">Profile</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-action="logout" asp-controller="auth" class="">
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="bg-danger bg-gradient rounded-x box-shadow-x p-2 text-center text-white">
+                                        <span data-feather="log-out" class="f-10"></span>
+                                    </div>
+                                </div>
+                                <div class="col-8">
+                                    <div class="mt-2">
+                                        <span class="f-regular fw-bold text-uppercase text-danger font-sm-xl">Logout</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+
+                    <li class="nav-item my-2">
+                        <small class="ms-2 text-uppercase fw-bold f-medium text-xs font-sm-xl text-black-50 font-weight-bolder opacity-8">Site</small>
+                    </li>
+
+                    <li class="nav-item">
+                        <a asp-action="privacy" asp-controller="bank">
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="bg-dark bg-gradient rounded-x box-shadow-x p-2 text-center text-white">
+                                        <span data-feather="shield" class="f-10"></span>
+                                    </div>
+                                </div>
+                                <div class="col-8">
+                                    <div class="mt-2">
+                                        <span class="f-regular fw-bold text-uppercase text-dark font-sm-xl">Privacy Policy</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <main role="main" id="main" class="pb-3 container">
+        @RenderBody()
+    </main>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.mask/jquery.mask.min.js" asp-append-version="true"></script>
+    <script src="~/lib/js-snackbar-master/snackbar.min.js" asp-append-version="true"></script>
+    <script src="~/lib/microsoft-signalr/signalr.js" asp-append-version="true"></script>
+    <script src="~/lib/microsoft-signalr/msgpack5/msgpack5.js" asp-append-version="true"></script>
+    <script src="~/lib/microsoft-signalr/msgpack5/signalr-protocol-msgpack.js" asp-append-version="true"></script>
+    <script src="~/lib/feather-icons/feather.min.js" asp-append-version="true"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        feather.replace()
+
+        StartHub()
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

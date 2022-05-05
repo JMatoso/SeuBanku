@@ -1,0 +1,59 @@
+﻿@model SeuBanku.Models.CommonModel
+
+@{
+    #nullable disable
+    var name = $"{Model.User.FirstName} {Model.User.LastName}";
+}
+
+<div class="my-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <button class="openbtn f-regular text-uppercase font-sm-xl fw-bold" id="open-btn" onclick="openNav()">
+                    SeuBanku
+                    &nbsp;
+                    <span data-feather="menu"></span>
+                </button>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="page-mark mt-1">
+                    <span class="f-regular text-uppercase font-sm-xl fw-bold">
+                        @ViewData["Title"]
+                    </span>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="text-right">
+                    <span>
+                        <a class="nav-link active" aria-current="page" asp-action="profile">
+                            @{
+                                var time = DateTime.Now.Hour;
+
+                                if(time >= 0 && time < 12)
+                                {
+                                    <span class="text-dark">Good morning,</span>
+                                }
+                                else if(time >= 12 && time < 18)
+                                {
+                                    <span class="text-dark">Good afternoon,</span>
+                                }
+                                else if(time >= 18)
+                                {
+                                    <span class="text-dark">Good evening,</span>
+                                }
+                                else
+                                {
+                                    <span class="text-dark">Hello,</span>
+                                }
+                            }
+                
+                            @name<span class="text-dark">.</span>
+                        </a>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

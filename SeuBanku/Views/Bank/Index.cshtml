@@ -1,0 +1,295 @@
+﻿@using System.Globalization
+@model SeuBanku.Models.CommonModel
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="row mt-2">
+    <div class="col-lg-9">
+        <div class="row">
+            <div class="col-lg-6 mb-3">
+                <div class="box-shadow rounded-x card-ext bg-dark bg-gradient">
+                    <div>
+                        <img class="w-100 h-100 image-fit" src="/images/pattern-tree.svg" alt="SeuBanku Card Pattern" />
+                    </div>
+                    <div class="text-white card-top rounded-x p-3 px-4">
+                        <div class="">
+                            @if(Model.Account.AccountType == AccountType.Savings) 
+                            {
+                                <span data-feather="shield"></span>
+                            }
+                            else
+                            {
+                                <span data-feather="wifi"></span>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="card-inner">
+                        <h5 class="fw-bold text-white p-3">
+                            @{
+                                string number = string.Empty;
+                                int row = 0;
+
+                                foreach (var item in Model.Account.AccountNumber.ToString().ToCharArray())
+                                {
+                                    if(row == 3)
+                                    {
+                                        number += "  ";
+                                        row = 0;
+                                    }
+
+                                    number += item;
+                                    row++;
+                                }
+
+                                <span class="pointer" data-toggle="tooltip" data-placement="auto" title="Click to copy" onclick="copy('@Model.Account.AccountNumber')">@number</span>
+                            }
+                        </h5>
+                    </div>
+
+                    <div class="card-bottom">
+                       <div class="p-3">
+                            <div class="row">
+                                <div class="col-4">
+                                    <small class="text-white-50 d-block f-regular">Card Holder</small>
+                                    <h6 class="fw-bold text-white">@Model.User.FirstName @Model.User.LastName</h6>
+                                </div>
+                                <div class="col-2">
+                                    <small class="text-white-50 d-block f-regular">Expires</small>
+                                    <h6 class="f-medium text-white fw-bold">
+                                        @Model.Account.ExpireDate.ToString("dd/yy")
+                                    </h6>
+                                </div>
+                                <div class="col-6 text-right">
+                                    <img src="images/jas-icon.png" class="mt-1" width="50" height="35" />
+                                </div>
+                            </div>
+                       </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <div class="box-shadow rounded-x card-ext bg-white">
+                    <div class="p-3">
+                        <div class="bg-primary bg-gradient w-50 bg-light-2 text-center centered box-shadow-x rounded text-white p-3">
+                            <span data-feather="credit-card"></span>
+                        </div>
+                    </div>
+                    <div class="text-center p-2">
+                        <h6 class="dark-blue fw-bold f-lighter">Balance</h6>
+                        <small class="text-muted font-sm-xl">Your total balance</small>
+                    </div>
+
+                    <hr class="bg-dark-2 my-2" />
+
+                    <div class="text-center">
+                        <h5 class="dark-blue fw-bold p-3">
+                            <span class="p-1">
+                                @if(Model.Account.Balance == 0)
+                                {
+                                    <span>0</span>
+                                }
+                                else
+                                {
+                                    <span>+@Model.Account.Balance</span>
+                                }
+                            </span>
+                            <small class="price-top">AKZ</small>
+                        </h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <div class="box-shadow rounded-x card-ext bg-white">
+                    <div class="p-3">
+                        <div class="bg-primary bg-gradient w-50 bg-light-2 text-center centered box-shadow-x rounded text-white p-3">
+                            <span data-feather="trending-down"></span>
+                        </div>
+                    </div>
+                    <div class="text-center p-2">
+                        <h6 class="dark-blue fw-bold f-lighter">Outcoming</h6>
+                        <small class="text-muted font-sm-xl">Outcomed in this month</small>
+                    </div>
+
+                    <hr class="bg-dark-2 my-2" />
+
+                    <div class="text-center">
+                        <h5 class="dark-blue fw-bold p-3 text-danger">
+                            @{
+                                var negativeExtract = Model.Extracts.Where(e => (e.OperationDate.Month == DateTime.Now.Month && e.OperationDate.Year == DateTime.Now.Year) &&
+                                                        e.OutAccountNumber == Model.Account.AccountNumber);
+                                <span class="p-1">
+                                    @{
+                                        var outAmount = negativeExtract.Sum(e => e.OutcomingBalance);
+
+                                        if(outAmount == 0) 
+                                        {
+                                            <span>0</span>
+                                        }
+                                        else
+                                        {
+                                            <span>-@outAmount</span>
+                                        }
+                                    }
+                                </span>
+                            }
+                            <small class="price-top">AKZ</small>
+                        </h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="box-shadow rounded-x card-ext bg-white p-3 mb-3">
+            <div class="row">
+                <div class="col-6">
+                    <div class="p-3">
+                        <h6 class="mt-1 fw-bold f-lighter blue-dark">Your Transation's</h6>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="p-3 text-right">
+                        <a asp-action="activities" asp-controller="bank" class="btn btn-sm rounded-x fw-bold btn-outline-danger text-uppercase font-sm-xl">See All</a>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="bg-dark-2 mt-1" />
+
+            <div class="h-100 table-responsive-md">
+                <table class="table table-borderless">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="font-sm-xl text-uppercase f-regular">Reference</th>
+                            <th scope="col" class="font-sm-xl text-uppercase f-regular">Service</th>
+                            <th scope="col" class="font-sm-xl text-uppercase f-regular">Operation</th>
+                            <th scope="col" class="font-sm-xl text-uppercase f-regular text-center">Status</th>
+                            <th scope="col" class="font-sm-xl text-uppercase f-regular text-center">Amount</th>
+                            <th scope="col" class="font-sm-xl text-uppercase f-regular">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            var extracts = Model.Extracts.Where(e => 
+                                    e.OutAccountNumber == Model.Account.AccountNumber || e.InAccountNumber == Model.Account.AccountNumber)
+                                .OrderByDescending(e => e.OperationDate);
+
+                            foreach (var extract in extracts.Take(5))
+                            {
+                                <tr>
+                                    <th class="f-lighter align-middle">#@extract.Reference</th>
+                                    <td class="dark-blue f-regular align-middle">
+                                        @if(extract.InAccountNumber == Model.Account.AccountNumber)
+                                        {
+                                            <span>@extract.From</span>
+                                        }
+                                        else
+                                        {
+                                            <span>@extract.To</span>
+                                        }
+                                    </td>
+                                    <td class="dark-blue f-regular align-middle">@extract.Operation</td>
+                                    <td class="text-center align-middle">
+                                        @if(extract.IsApproved)
+                                        {
+                                            <span class="badge bg-success bg-gradient">Success</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-light bg-gradient text-muted">Pendent</span>
+                                        }
+                                    </td>
+                                    <td class="text-center fw-bold align-middle">
+                                        @if(extract.OutAccountNumber == Model.Account.AccountNumber)
+                                        {
+                                            <span class="p-1 dark-blue text-danger">-@extract.OutcomingBalance</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="p-1 dark-blue text-success">+@extract.OutcomingBalance</span>
+                                        }
+                                    </td>
+                                    <td class="align-middle">@extract.OperationDate.ToString("MMM dd, yy", CultureInfo.InvariantCulture)</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+                @if(extracts.Count() <= 0)
+                {
+                    <div class="p-3 text-center">
+                        <h5 class="text-muted text-center p-3">No recent transations!</h5>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 mb-3">
+        <div class="box-shadow h-100 rounded-x card-ext bg-white">
+            <div class="row">
+                <div class="col-6">
+                    <div class="p-3">
+                        <h6 class="mt-2 fw-bold f-lighter blue-dark">Invoices</h6>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="p-3 text-right">
+                        <a asp-action="activities" asp-controller="bank" class="btn btn-sm fw-bold rounded-x btn-outline-danger text-uppercase font-sm-xl">See All</a>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="bg-dark-2 mt-1" />
+
+            <div class="px-3">
+                @{
+                    var invoices = Model.Extracts.Where(e => 
+                                    e.OutAccountNumber == Model.Account.AccountNumber && (e.Operation == BankOperations.Transfer || e.Operation == BankOperations.Payment))
+                                .OrderByDescending(e => e.OperationDate);
+
+                    foreach (var invoice in invoices.Take(9))
+                    {
+                        <div class="mb-3">
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="lh-1">
+                                        <h6 class="fw-bold f-lighter dark-blue">#@invoice.Reference</h6>
+                                        <small class="text-muted">
+                                            @invoice.Operation at 
+                                            @invoice.OperationDate.ToString("MMM dd, yy", CultureInfo.InvariantCulture)
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="col-4 text-right">
+                                    <div class="p-2">
+                                        <a target="_blank" asp-action="invoice" asp-controller="bank" asp-route-invid="@invoice.Id" data-toggle="tooltip" data-placement="auto" title="Donwload invoice">
+                                            <span data-feather="download-cloud"></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="bg-dark-2 mt-1">
+                    }
+
+                    if(invoices.Count() <= 0)
+                    {
+                        <div class="p-3 text-center">
+                            <h5 class="text-muted">No recent invoices!</h5>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-right container mt-5 text-muted">
+    <small>All rights reserved. &copy;<span id="copy-year"></span> | SeuBanku</small>
+</div>

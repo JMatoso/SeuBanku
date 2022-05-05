@@ -1,0 +1,36 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "signalr.js@2.4.3",
+      "destination": "wwwroot/lib/signalr.js/"
+    },
+    {
+      "library": "feather-icons@4.29.0",
+      "destination": "wwwroot/lib/feather-icons/",
+      "files": [
+        "feather.min.js",
+        "feather.min.js.map"
+      ]
+    },
+    {
+      "library": "microsoft-signalr@6.0.4",
+      "destination": "wwwroot/microsoft-signalr/"
+    },
+    {
+      "library": "jquery.mask@1.14.16",
+      "destination": "wwwroot/lib/jquery-validation/dist/jquery.mask/",
+      "files": [
+        "jquery.mask.min.js"
+      ]
+    },
+    {
+      "library": "msgpack5@6.0.0",
+      "destination": "wwwroot/lib/microsoft-signalr/msgpack5/",
+      "files": [
+        "msgpack5.js"
+      ]
+    }
+  ]
+}
