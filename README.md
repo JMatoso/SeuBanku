@@ -19,8 +19,8 @@ Then...
 
 <h3>Tools</h3>
 <ul>
-    <li>VS 2022 (optional)<li>
-    <li>.NET Core 6.0<li>
+    <li>VS 2022 (optional)</li>
+    <li>.NET Core 6.0</li>
     <li><a href="https://dotnet.microsoft.com/en-us/apps/aspnet/signalr">SignalR</a></li>
     <li>Microsoft Identity</li>
     <li>Microsoft Entity Framework Core</li>
