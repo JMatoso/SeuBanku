@@ -1,3 +1,5 @@
-# SeuBanku
+# SeuBanku - Bank Simulation
 
-It's a Bank, or is suppose to be, but it's a small challenge.
+> #SchoolProject #SchoolChallenge
+
+<h3>Project Description</h3>
