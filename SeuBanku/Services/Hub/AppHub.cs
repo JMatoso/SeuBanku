@@ -31,8 +31,7 @@ namespace SeuBanku.Services.Hub
             _contextAccessor = contextAccessor;
         }
 
-        [AllowAnonymous]
-        [HubMethodName("GetAccountOwner")]
+        [AllowAnonymous, HubMethodName("GetAccountOwner")]
         public async Task GetAccountOwner(string accountNumber)
         {
             if(!string.IsNullOrEmpty(accountNumber))
@@ -60,8 +59,7 @@ namespace SeuBanku.Services.Hub
             await Clients.All.BadRequest("Invalid reciever account number.");
         }
 
-        [AllowAnonymous]
-        [HubMethodName("Deposit")]
+        [AllowAnonymous, HubMethodName("Deposit")]
         public async Task Deposit(string accountNumber, string amount)
         {
             if (!string.IsNullOrEmpty(accountNumber) && !string.IsNullOrEmpty(amount))
@@ -116,8 +114,7 @@ namespace SeuBanku.Services.Hub
             return;
         }
 
-        [Authorize]
-        [HubMethodName("Lifting")]
+        [Authorize, HubMethodName("Lifting")]
         public async Task Lifting(string amount)
         {
             if(!string.IsNullOrEmpty(amount))
@@ -171,8 +168,7 @@ namespace SeuBanku.Services.Hub
             await Clients.All.BadRequest("Invalid amount.");
         }
 
-        [Authorize]
-        [HubMethodName("Payment")]
+        [Authorize, HubMethodName("Payment")]
         public async Task Payment(string sid)
         {
             var user = await GetUser();
@@ -233,8 +229,7 @@ namespace SeuBanku.Services.Hub
             await Clients.All.BadRequest("Sender account not found. Re-login!");
         }
 
-        [Authorize]
-        [HubMethodName("Transfer")]
+        [Authorize, HubMethodName("Transfer")]
         public async Task Transfer(string accountNumber, string amount)
         {
             var user = await GetUser();

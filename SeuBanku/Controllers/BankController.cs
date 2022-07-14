@@ -40,20 +40,16 @@ namespace SeuBanku.Controllers
         [Route("/dashboard")]
         public async Task<IActionResult> Index() => View(await GetData());
 
-        [Authorize]
-        [Route("/transfer")]
+        [Authorize, Route("/transfer")]
         public async Task<IActionResult> Transfer() => View(await GetData());
 
-        [Authorize]
-        [Route("/payments")]
+        [Authorize, Route("/payments")]
         public async Task<IActionResult> Payments() => View(await GetData());
 
-        [Authorize]
-        [Route("/lifting")]
+        [Authorize, Route("/lifting")]
         public async Task<IActionResult> Lifting() => View(await GetData());
 
-        [Authorize]
-        [Route("/activity")]
+        [Authorize, Route("/activity")]
         public async Task<IActionResult> Activities([FromQuery]Parameters parameters)
         {
             var data = await GetData();
@@ -67,12 +63,10 @@ namespace SeuBanku.Controllers
             return View(data);
         }
 
-        [Authorize]
-        [Route("/account")]
+        [Authorize, Route("/account")]
         public async Task<IActionResult> Profile() => View(await GetData());
 
-        [Authorize]
-        [Route("/invoice")]
+        [Authorize, Route("/invoice")]
         public async Task<IActionResult> Invoice(Guid invid)
         {
             var invoice = await _extractManager.GetObjectAsync(e => e.Id == invid);
@@ -83,13 +77,10 @@ namespace SeuBanku.Controllers
                 RedirectToAction(nameof(NotFound));
         }
 
-        [AllowAnonymous]
-        [Route("/deposit")]
+        [AllowAnonymous, Route("/deposit")]
         public IActionResult Deposit() => View();
 
-        [HttpPost]
-        [AllowAnonymous]
-        [Route("/deposit")]
+        [HttpPost, AllowAnonymous, Route("/deposit")]
         public async Task<IActionResult> Deposit(string card, string amount)
         {
             if(ModelState.IsValid)
@@ -172,20 +163,16 @@ namespace SeuBanku.Controllers
             return common;
         }
 
-        [AllowAnonymous]
-        [Route("/notfound")]
+        [AllowAnonymous, Route("/notfound")]
         public new IActionResult NotFound() => View();
 
-        [AllowAnonymous]
-        [Route("/forbidden")]
+        [AllowAnonymous, Route("/forbidden")]
         public IActionResult Forbidden() => View();
 
-        [AllowAnonymous]
-        [Route("/privacy")]
+        [AllowAnonymous, Route("/privacy")]
         public IActionResult Privacy() => View();
 
-        [AllowAnonymous]
-        [Route("/error")]
+        [AllowAnonymous, Route("/error")]
         public IActionResult Error() => View();
     }
 }

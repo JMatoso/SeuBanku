@@ -38,17 +38,14 @@ namespace SeuBanku.Controllers
             _accountManager = accountManager;
         }
 
-        [AllowAnonymous]
-        [Route("/login")]
+        [AllowAnonymous, Route("/login")]
         public IActionResult Login(string returnUrl = "/")
         {
             return User.Identity.IsAuthenticated ? RedirectToAction("index", "bank") : 
                 View(new Login { ReturnUrl = returnUrl });
         }
 
-        [HttpPost]
-        [AllowAnonymous]
-        [Route("/login")]
+        [HttpPost, AllowAnonymous, Route("/login")]
         public async Task<IActionResult> Login(Login login)
         {
             if(ModelState.IsValid)
@@ -95,13 +92,10 @@ namespace SeuBanku.Controllers
             return View();
         }
 
-        [AllowAnonymous]
-        [Route("/signin")]
+        [AllowAnonymous, Route("/signin")]
         public IActionResult Signin() =>  User.Identity.IsAuthenticated ? RedirectToAction("index", "bank") : View();
 
-        [HttpPost]
-        [AllowAnonymous]
-        [Route("/signin")]
+        [HttpPost, AllowAnonymous, Route("/signin")]
         public async Task<IActionResult> Signin(Signin signin)
         {
             if(ModelState.IsValid)
@@ -181,8 +175,7 @@ namespace SeuBanku.Controllers
             return View();
         }
 
-        [Authorize]
-        [Route("/logout")]
+        [Authorize, Route("/logout")]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
